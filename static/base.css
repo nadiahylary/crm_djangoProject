@@ -1,0 +1,43 @@
+/*#991235;*/
+body{
+    font-family: "Copperplate Gothic Bold", "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+}
+#home:hover, #my-notes:hover, #register_link:hover{
+    color: #129935;
+    text-decoration: underline;
+}
+.navbar-brand:hover, a:link:hover{
+    color: #129935;
+}
+.form-group button{
+    font-weight: bold;
+    font-size: 18px;
+}
+h1,h2,h3,h4,h5,h6{
+    text-align: center;
+    margin-top: 5px;
+}
+.form-group{
+    margin: 20px;
+    font-size: 18px;
+}
+.form-group input, button{
+    height: 45px;
+}
+.form-group button:hover{
+    background-color: white;
+    color: green;
+}
+#register_link{
+    text-decoration: none;
+    color: #991235;
+}
+.logindiv{
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 1px 2px 3px #ccc;
+    padding: 10px;
+    margin-top: 50px;
+
+}
+
