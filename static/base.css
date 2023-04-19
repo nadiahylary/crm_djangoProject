@@ -2,12 +2,15 @@
 body{
     font-family: "Copperplate Gothic Bold", "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
-#home:hover, #my-notes:hover, #register_link:hover{
+#home:hover, #my-notes:hover, #register_link:hover, #login_link:hover{
     color: #129935;
     text-decoration: underline;
 }
 .navbar-brand:hover, a:link:hover{
     color: #129935;
+}
+.navbar-brand{
+    color: crimson;
 }
 .form-group button{
     font-weight: bold;
@@ -26,11 +29,15 @@ h1,h2,h3,h4,h5,h6{
 }
 .form-group button:hover{
     background-color: white;
-    color: green;
+    color: #129935;
 }
 #register_link{
     text-decoration: none;
-    color: #991235;
+    color: crimson;
+}
+#login_link{
+    text-decoration: none;
+    color:  crimson;
 }
 .logindiv{
     background: #fff;
@@ -39,5 +46,18 @@ h1,h2,h3,h4,h5,h6{
     padding: 10px;
     margin-top: 50px;
 
+}
+.signupdiv{
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 1px 2px 3px #ccc;
+    padding: 10px;
+
+}
+.flex{
+    display: flex;
+}
+.text-center .btn{
+    margin-top: 10px;
 }
 
