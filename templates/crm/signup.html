@@ -18,39 +18,40 @@
                 {% endif %}
             {% endfor %}
     {% endif %}
-    <div class="signupdiv">
-        <form id="signupForm" method="post" >
-            {% csrf_token %}
-            <h2 class="text-center">Sign Up to Continue</h2>
-            {% comment %}{{ form.as_p }}{% endcomment %}
-            <div class="form-group flex">
-                {{ form.first_name }}
-                {{ form.last_name }}
-                {% comment %}<input type="text" class="form-control w-50" name="f_name" id="f_name" placeholder="First Name" required style="margin-right: 10px;">
-                <input type="text" class="form-control w-50" name="l_name" id="l_name" placeholder="Last Name" required>{% endcomment %}
-            </div>
-            <div class="form-group">
-                {{ form.email }}
-            </div>
-            <div class="form-group">
-                {{ form.username }}
-                {% comment %}<input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>{% endcomment %}
-            </div>
-            <div class="form-group">
-                {{ form.password1 }}
-{#                <input type="password" class="form-control" name="password" id="password" placeholder="Your Password" required>#}
-            </div>
-            <div class="form-group">
-                {{ form.password2 }}
-{#                <input type="password" class="form-control" name="conf_password" id="conf_password" placeholder="Confirm Password" required>#}
-            </div>
-            <div class="form-group text-center">
-                <button class="btn btn-success w-50" type="submit">Register</button>
-            </div>
-            <div class="form-group text-center">
-                <p class="mb-5 pb-lg-2" style="color: #010101; margin-top: 80px;">Already have an account? <a id="login_link" href="{% url 'login' %}">Login</a>.</p>
-            </div>
-        </form>
+    <div class="col-md-6 offset-md-3">
+        <div class="signupdiv">
+            <form id="signupForm" method="post" >
+                {% csrf_token %}
+                <h2 class="text-center">Sign Up to Continue</h2>
+                {% comment %}{{ form.as_p }}{% endcomment %}
+                <div class="form-group flex">
+                    {{ form.first_name }}
+                    {{ form.last_name }}
+                    {% comment %}<input type="text" class="form-control w-50" name="f_name" id="f_name" placeholder="First Name" required style="margin-right: 10px;">
+                    <input type="text" class="form-control w-50" name="l_name" id="l_name" placeholder="Last Name" required>{% endcomment %}
+                </div>
+                <div class="form-group">
+                    {{ form.email }}
+                </div>
+                <div class="form-group">
+                    {{ form.username }}
+                    {% comment %}<input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>{% endcomment %}
+                </div>
+                <div class="form-group">
+                    {{ form.password1 }}
+    {#                <input type="password" class="form-control" name="password" id="password" placeholder="Your Password" required>#}
+                </div>
+                <div class="form-group">
+                    {{ form.password2 }}
+    {#                <input type="password" class="form-control" name="conf_password" id="conf_password" placeholder="Confirm Password" required>#}
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-success w-50" type="submit">Register</button>
+                </div>
+                <div class="form-group text-center">
+                    <p class="mb-5 pb-lg-2" style="color: #010101; margin-top: 80px;">Already have an account? <a id="login_link" href="{% url 'login' %}">Login</a>.</p>
+                </div>
+            </form>
+        </div>
     </div>
-
 {% endblock %}

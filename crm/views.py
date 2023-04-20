@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from crm.forms import SignUpForm
+from crm.models import Customer
 
 
 # Create your views here.
@@ -15,7 +16,7 @@ from crm.forms import SignUpForm
 
 @login_required(login_url='login')
 def index(request):
-    return render(request, 'crm/index.html', {})
+    return render(request, 'crm/index.html')
 
 
 def login_user(request):
@@ -56,3 +57,21 @@ def register_user(request):
         form = SignUpForm()
         return render(request, 'crm/signup.html', {'form': form})
     return render(request, 'crm/signup.html', {'form': form})
+
+
+@login_required(login_url='login')
+def customers_List(request):
+    customers = Customer.objects.all().order_by('created_at')
+    if request.method == 'POST':
+        return "hello"
+    else:
+        return render(request, 'crm/customers.html', {'customers': customers})
+    return render(request, 'crm/customers.html', {'customers': customers})
+
+
+def edit_customer(request):
+    return None
+
+
+def delete_customer(request):
+    return None

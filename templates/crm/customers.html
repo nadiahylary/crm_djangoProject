@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %}
+
+{% block css %}{% endblock %}
+
+{% block body %}
+
+    <main style="margin: 15px;">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>
+        </div>
+      </div>
+
+      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+
+      <h2>All Customers</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+
+            <tr>
+{#                <th scope="col">#</th>#}
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Description</th>
+                <th scope="col">Complete Address</th>
+                <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for customer in customers %}
+            <tr>
+{#                <td>{{ customer.id }}</td>#}
+                <td>{{ customer.first_name }} {{ customer.last_name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.phone }}</td>
+                <td>{{ customer.description }}</td>
+                <td>{{ customer.address }} {{ customer.city }} {{ customer.country }}</td>
+                <td><span class="badge rounded-pill bg-warning text-dark"><a href="{% url 'edit' customer.id %}">Edit</a></span><span class="badge rounded-pill bg-danger"><a href="{% url 'delete' customer.id %}">Delete</a></span></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+{% endblock %}
