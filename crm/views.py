@@ -5,7 +5,7 @@ from django.core.validators import validate_email
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
-from crm.forms import SignUpForm
+from crm.forms import SignUpForm, AddCustomerForm
 from crm.models import Customer
 
 
@@ -61,17 +61,43 @@ def register_user(request):
 
 @login_required(login_url='login')
 def customers_List(request):
-    customers = Customer.objects.all().order_by('created_at')
+    form = AddCustomerForm(request.POST or None)
     if request.method == 'POST':
-        return "hello"
+        # get the data from the add new customer form
+        # create a new user with that data
+        # commit to the db
+        # then redirect to index page
+        if form.is_valid():
+            form.save()
+            messages.success(request, "New Customer Added Successfully...")
+            return redirect('index')
     else:
-        return render(request, 'crm/customers.html', {'customers': customers})
-    return render(request, 'crm/customers.html', {'customers': customers})
+        customers = Customer.objects.all().order_by('created_at')
+        return render(request, 'crm/customers.html', {'customers': customers, 'form': form})
 
 
-def edit_customer(request):
-    return None
+@login_required(login_url='login')
+def edit_customer(request, pk):
+    if request.method == 'POST':
+        customer = Customer.objects.get(id=pk)
+        # set customer's data to updated data from the form
+        # save to db
+        # then redirect to customers' page
+        form = AddCustomerForm(request.POST or None, instance=customer)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Customer's Details Has Been Updated!")
+            return redirect('customers')
+        return render(request, 'crm/edit-customer.html', {'form': form})
+    else:
+        customer = Customer.objects.get(id=pk)
+        return render(request, 'crm/customer-detail.html', {'customer': customer})
 
 
-def delete_customer(request):
-    return None
+# delete a customer from db
+@login_required(login_url='login')
+def delete_customer(request, pk):
+    customer = Customer.objects.get(id=pk)
+    customer.delete()
+    messages.success(request, "Customer Deleted Successfully.")
+    return redirect('customers')

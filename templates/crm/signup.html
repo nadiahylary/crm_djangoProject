@@ -22,7 +22,7 @@
         <div class="signupdiv">
             <form id="signupForm" method="post" >
                 {% csrf_token %}
-                <h2 class="text-center">Sign Up to Continue</h2>
+                <h2 class="text-center" style="margin-bottom: 10px;">Sign Up to Continue</h2>
                 {% comment %}{{ form.as_p }}{% endcomment %}
                 <div class="form-group flex">
                     {{ form.first_name }}
@@ -39,6 +39,7 @@
                 </div>
                 <div class="form-group">
                     {{ form.password1 }}
+
     {#                <input type="password" class="form-control" name="password" id="password" placeholder="Your Password" required>#}
                 </div>
                 <div class="form-group">
