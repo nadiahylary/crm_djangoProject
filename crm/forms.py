@@ -48,6 +48,7 @@ for country in countries:
 class AddCustomerForm(forms.ModelForm):
     title = forms.ChoiceField(required=True, choices=[('Mrs', 'Mrs'), ('Mr.', 'Mr.'), ('Dr.', 'Dr'), ('Prof.', 'Professor')],
                               label="", widget=forms.Select(attrs={'class': "form-control w-50", 'placeholder': "Customer Title", "name": "title"}))
+    image = forms.ImageField(required=False, label="", widget=forms.FileInput(attrs={'class': "form-control", 'placeholder': "Profile Image", "name": "profile_image"}))
     email = forms.EmailField(required=True, label="",
                              widget=forms.EmailInput(attrs={'class': "form-control", 'placeholder': "Customer's Email", "name": "email"}))
     first_name = forms.CharField(required=True, label="", max_length=100, widget=forms.TextInput(

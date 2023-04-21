@@ -8,8 +8,9 @@
 
 {% block body %}
     <div class="card col-md-6 offset-md-4 text-center" style="width: 25rem; height: fit-content;">
-        <img src="{% static "images/beautiful sunset.jpeg" %}" class="card-img-top" alt="beautiful sunset">
+        <img src="{% static customer.image %}" class="card-img-top" alt="{% comment %}{{ customer.first_name|add: 'profile image' }}{% endcomment %}">
         <div class="card-body">
+            {{ customer.created_at }}
             <h5 class="card-title">{{ customer.title }} {{ customer.first_name }} {{ customer.last_name }}</h5>
             <hr>
         </div>
@@ -19,7 +20,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">{{ customer.email }}</li>
             <li class="list-group-item">{{ customer.phone }}</li>
-            <li class="list-group-item">{{ customer.address }} {{ customer.city }} {{ customer.region }} {{ country }}</li>
+            <li class="list-group-item">{{ customer.address }} {{ customer.city }} {{ customer.region }} {{ customer.country }}</li>
         </ul>
         <div class="card-body">
             <button class="btn btn-warning h-50" style="background-color: limegreen;" >

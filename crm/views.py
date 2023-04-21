@@ -14,14 +14,14 @@ from crm.models import Customer
 
 # Create your views here.
 
+
 # allow access to index page if user is logged in
-
-
 @login_required(login_url='login')
 def index(request):
     return render(request, 'crm/index.html')
 
 
+# login user and redirect to index page
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -38,12 +38,14 @@ def login_user(request):
         return render(request, 'crm/login.html')
 
 
+# log out user and redirect to login page
 def logout_user(request):
     logout(request)
     messages.success(request, "You have been Successfully Logged Out! See you next time ;)")
     return redirect('/login')
 
 
+# register new user and redirect to index page
 def register_user(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -62,31 +64,33 @@ def register_user(request):
     return render(request, 'crm/signup.html', {'form': form})
 
 
+# add new customers and view all customers
 @login_required(login_url='login')
 def customers_List(request):
-    form = AddCustomerForm(request.POST or None)
+    form = AddCustomerForm(request.POST, request.FILES or None)
     if request.method == 'POST':
         # get the data from the add new customer form
-        # create a new user with that data
-        # commit to the db
+        # commit form date to the db
         # then redirect to index page
         if form.is_valid():
             form.save()
             messages.success(request, "New Customer Added Successfully...")
             return redirect('index')
+        elif not form.is_valid():
+            return render(request, "crm/customers.html", {"form": form})
     else:
         customers = Customer.objects.all().order_by('-created_at')
         return render(request, 'crm/customers.html', {'customers': customers, 'form': form})
 
 
+# view customer from id
 @login_required(login_url='login')
 def view_customer(request, pk):
     customer = Customer.objects.get(id=pk)
-    country = pycountry.countries.get(alpha_2=customer.country)
-    print(country)
-    return render(request, 'crm/customer-detail.html', {'customer': customer, "country": country})
+    return render(request, 'crm/customer-detail.html', {'customer': customer})
 
 
+# edit customer from id and redirect to all customers page
 @login_required(login_url='login')
 def edit_customer(request, pk):
     customer = Customer.objects.get(id=pk)
@@ -100,7 +104,7 @@ def edit_customer(request, pk):
     #     return render(request, 'crm/edit-customer.html', {'customer': customer})
 
 
-# delete a customer from db
+# delete a customer by id from db
 @login_required(login_url='login')
 def delete_customer(request, pk):
     customer = Customer.objects.get(id=pk)
