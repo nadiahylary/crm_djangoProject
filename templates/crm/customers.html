@@ -4,58 +4,81 @@
 {% block title %}Customers{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static "base.css" %}">
+    <link rel="stylesheet" href="{% static "base.css" %}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 
 {% block body %}
 
     <div class="col-md-6 offset-md-3">
+    {% if form.errors %}
+            {% for field in form %}
+                {% if field.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Holy guacamole!</strong> {{ field.errors }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+    {% endif %}
         <form action="{% url 'customers' %}" method="post">
             {% csrf_token %}
             <div class="form-group col-md-2">
-                <select id="title" class="form-control" name="title">
+                {{ form.title }}
+                {% comment %}<select id="title" class="form-control" name="title">
                     <option selected>Title</option>
                     <option value="Mrs">Mrs/Ms</option>
                     <option value="Mr">Mr</option>
                     <option value="Dr">Dr</option>
                     <option value="Prof.">Prof</option>
-                </select>
+                </select>{% endcomment %}
             </div>
             <div class="form-group flex">
-                <input type="text" name="firstName" class="form-control" id="firstName" placeholder="First Name" style="margin-right: 10px;">
-                <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Last Name">
-            </div>
-
-            <div class="form-group flex">
-                <input type="email" class="form-control" name="email" id="inputEmail4" placeholder="Email" style="margin-right: 10px;">
-                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone">
+                {{ form.first_name }}
+                <span style="margin-right: 10px;"></span>
+                {{ form.last_name }}
+                {% comment %}<input type="text" name="firstName" class="form-control" id="firstName" placeholder="First Name" style="margin-right: 10px;">
+                <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Last Name">{% endcomment %}
             </div>
 
             <div class="form-group flex">
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" style="margin-right: 10px;">
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                {{ form.email }}
+                <span style="margin-right: 10px;"></span>
+                {{ form.phone }}
+                {% comment %}<input type="email" class="form-control" name="email" id="inputEmail4" placeholder="Email" style="margin-right: 10px;">
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone">{% endcomment %}
+            </div>
+            <div class="form-group flex">
+                {{ form.address }}
+                {% comment %}<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" style="margin-right: 10px;">{% endcomment %}
             </div>
             <div class="form-group ">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="inputCity" placeholder="City">
+                    {{ form.city }}
+                    {% comment %}<input type="text" class="form-control" id="inputCity" placeholder="City">{% endcomment %}
                 </div>
                 <div class="form-group">
-                    <select id="inputState" class="form-control">
+                    {{ form.region }}
+                   {% comment %} <select id="inputState" class="form-control">
                         <option selected >State/Region</option>
                         <option>...</option>
-                    </select>
+                    </select>{% endcomment %}
                 </div>
                 <div class="form-group flex">
-                    <div class="w-50" style="margin-right: 10px; height: 45px;">
-                        <select id="inputCountry" class="form-control" style="margin-right: 10px; height: 45px;">
+                    <div class="w-50">
+                        {{ form.country }}
+                        {% comment %}<select id="inputCountry" class="form-control" style="margin-right: 10px; height: 45px;">
                             <option selected>Country</option>
                             <option>...</option>
-                        </select>
+                        </select>{% endcomment %}
                     </div>
                     <div class="w-50" >
-                        <input type="text" class="form-control" id="inputZip" placeholder="Zip Code">
+                        {{ form.zipcode }}
+                        {% comment %}<input type="text" class="form-control" id="inputZip" placeholder="Zip Code">{% endcomment %}
                     </div>
                  </div>
+                <div class="form-group">
+                    {{ form.description }}
+                </div>
             </div>
             <div class="form-group text-center">
                 <button type="submit" class="btn btn-success w-50" id="addCustomer">Add Customer</button>
@@ -64,12 +87,22 @@
     </div>
     {% if customers %}
     <hr>
-    <div style="margin: 15px;" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2>All Customers</h2>
+    <div style="margin: 20px;" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2 style="color: crimson; text-transform: uppercase; ">Customers</h2>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown">
+                <a class="nav-link btn-sm btn-outline-secondary dropdown-toggle" style="color: #129935; text-decoration: none; font-weight: 550; font-size: 16px;" href="#"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Export</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">As:</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" style="color: crimson; text-decoration: none; font-weight: 550; font-size: 16px;" href="#">Excel</a></li>
+                    <li><a class="dropdown-item" style="color: crimson; text-decoration: none; font-weight: 550; font-size: 16px;" href="#">PDF</a></li>
+                    <li><a class="dropdown-item" style="color: crimson; text-decoration: none; font-weight: 550; font-size: 16px;" href="#">CSV</a></li>
+                </ul>
+            </button>
           </div>
           <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
             <span data-feather="calendar"></span>
@@ -100,11 +133,11 @@
                 <td>{{ customer.email }}</td>
                 <td>{{ customer.phone }}</td>
                 <td>{{ customer.description }}</td>
-                <td>{{ customer.address }} {{ customer.zipcode }} {{ customer.city }} {{ customer.country }}</td>
+                <td>{{ customer.address }} {{ customer.zipcode }} {{ customer.city }} {{ customer.country}}</td>
                 <td>
-                    <button class="btn btn-warning h-50" style="margin-bottom: 5px; background-color: limegreen;" ><a href="{% url 'edit' customer.id %}" style="color: black; text-decoration: none; font-weight: bold;">View</a></button>
+                    <button class="btn btn-warning h-50" style="margin-bottom: 5px; background-color: #129935;" ><a href="{% url 'view' customer.id %}" style="color: black; text-decoration: none; font-weight: 500;">View</a></button>
 
-                    <button class="btn btn-danger h-50" style="background-color: crimson;"><a href="{% url 'delete' customer.id %}" style="color: black; text-decoration: none; font-weight: bold;">Delete</a></button>
+                    <button class="btn btn-danger h-50" style="background-color: crimson;"><a href="{% url 'delete' customer.id %}" style="color: black; text-decoration: none; font-weight: 500;">Delete</a></button>
                 </td>
             </tr>
           {% endfor %}

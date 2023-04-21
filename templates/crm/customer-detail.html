@@ -7,20 +7,27 @@
 {% endblock %}
 
 {% block body %}
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
+    <div class="card col-md-6 offset-md-4 text-center" style="width: 25rem; height: fit-content;">
+        <img src="{% static "images/beautiful sunset.jpeg" %}" class="card-img-top" alt="beautiful sunset">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h5 class="card-title">{{ customer.title }} {{ customer.first_name }} {{ customer.last_name }}</h5>
+            <hr>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ customer.description }}</p>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">An item</li>
-            <li class="list-group-item">A second item</li>
-            <li class="list-group-item">A third item</li>
+            <li class="list-group-item">{{ customer.email }}</li>
+            <li class="list-group-item">{{ customer.phone }}</li>
+            <li class="list-group-item">{{ customer.address }} {{ customer.city }} {{ customer.region }} {{ country }}</li>
         </ul>
         <div class="card-body">
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <button class="btn btn-warning h-50" style="background-color: limegreen;" >
+                <a href="{% url 'edit' customer.id %}" class="card-link" style="color: black; text-decoration: none; font-weight: bold;">Edit Customer</a>
+            </button>
+            <button class="btn btn-danger h-50" style="background-color: crimson;">
+                <a href="{% url 'delete' customer.id %}" class="card-link" style="color: black; text-decoration: none; font-weight: bold;">Delete Customer</a>
+            </button>
         </div>
     </div>
 {% endblock %}

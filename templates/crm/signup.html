@@ -8,6 +8,8 @@
 
 
 {% block body %}
+
+    <div class="col-md-6 offset-md-3">
     {% if form.errors %}
             {% for field in form %}
                 {% if field.errors %}
@@ -18,7 +20,6 @@
                 {% endif %}
             {% endfor %}
     {% endif %}
-    <div class="col-md-6 offset-md-3">
         <div class="signupdiv">
             <form id="signupForm" method="post" >
                 {% csrf_token %}

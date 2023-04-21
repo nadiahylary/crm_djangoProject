@@ -1,9 +1,12 @@
+import pycountry
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from phone_iso3166.country import phone_country
+from phonenumbers import region_code_for_number
 
 from crm.forms import SignUpForm, AddCustomerForm
 from crm.models import Customer
@@ -72,26 +75,29 @@ def customers_List(request):
             messages.success(request, "New Customer Added Successfully...")
             return redirect('index')
     else:
-        customers = Customer.objects.all().order_by('created_at')
+        customers = Customer.objects.all().order_by('-created_at')
         return render(request, 'crm/customers.html', {'customers': customers, 'form': form})
 
 
 @login_required(login_url='login')
+def view_customer(request, pk):
+    customer = Customer.objects.get(id=pk)
+    country = pycountry.countries.get(alpha_2=customer.country)
+    print(country)
+    return render(request, 'crm/customer-detail.html', {'customer': customer, "country": country})
+
+
+@login_required(login_url='login')
 def edit_customer(request, pk):
-    if request.method == 'POST':
-        customer = Customer.objects.get(id=pk)
-        # set customer's data to updated data from the form
-        # save to db
-        # then redirect to customers' page
-        form = AddCustomerForm(request.POST or None, instance=customer)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Customer's Details Has Been Updated!")
-            return redirect('customers')
-        return render(request, 'crm/edit-customer.html', {'form': form})
-    else:
-        customer = Customer.objects.get(id=pk)
-        return render(request, 'crm/customer-detail.html', {'customer': customer})
+    customer = Customer.objects.get(id=pk)
+    form = AddCustomerForm(request.POST or None, instance=customer)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Customer's Details Has Been Updated!")
+        return redirect('customers')
+    return render(request, 'crm/edit-customer.html', {'form': form})
+    # else:
+    #     return render(request, 'crm/edit-customer.html', {'customer': customer})
 
 
 # delete a customer from db
@@ -101,3 +107,9 @@ def delete_customer(request, pk):
     customer.delete()
     messages.success(request, "Customer Deleted Successfully.")
     return redirect('customers')
+
+
+# @login_required(login_url='login')
+# def export(request):
+#     customers = Customer.objects.all().order_by('created_at')
+#     with open("customers.xls")

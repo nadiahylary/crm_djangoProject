@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Edit Customer Details{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static "base.css" %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="col-md-6 offset-md-3">
+    {% if form.errors %}
+            {% for field in form %}
+                {% if field.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Holy guacamole!</strong> {{ field.errors }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+    {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-success w-50" id="addCustomer">Edit Customer</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
